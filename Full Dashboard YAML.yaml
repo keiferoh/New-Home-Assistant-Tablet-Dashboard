@@ -1,0 +1,2379 @@
+title: Tablet
+button_card_templates:
+  standard:
+    color_type: card
+    size: 80%
+    hold_action:
+      action: more-info
+    styles:
+      card:
+        - padding: 0.2em
+        - '--mdc-ripple-color': purple
+        - '--mdc-ripple-press-opacity': 0.5
+      icon:
+        - opacity: 0.5
+      name:
+        - font-size: 50em
+        - white-space: normal
+      state:
+        - font-size: 12em
+        - white-space: normal
+      label:
+        - font-size: 50em
+        - white-space: normal
+  wide:
+    template: standard
+    styles:
+      grid:
+        - position: relative
+        - grid-template-areas: '"n i"'
+        - grid-template-columns: 1fr 1fr
+        - grid-template-rows: 1fr
+  roomba:
+    show_name: false
+    size: 75%
+    color_type: icon
+    color: yellow
+    state:
+      - styles:
+          icon:
+            - width: 75%
+            - color: black
+        value: docked
+      - styles:
+          icon:
+            - width: 75%
+            - color: yellow
+        value: charging
+      - styles:
+          icon:
+            - width: 75%
+            - color: rgb(0, 175, 0)
+        value: cleaning
+      - styles:
+          icon:
+            - width: 75%
+            - color: red
+            - animation: pulse 2.5s infinite
+        value: unknown
+      - styles:
+          icon:
+            - width: 75%
+            - color: yellow
+            - animation: pulse 2.5s infinite
+        value: paused
+      - styles:
+          icon:
+            - width: 75%
+            - color: yellow
+        value: returning
+    extra_styles: |
+      [[[ return `
+        @keyframes pulse {
+          50% {
+            color: white;
+          }
+        }
+      `]]]
+    style:
+      .: |
+        ha-card {
+          background-color: transparent !important;
+          box-shadow: none !important;
+        }
+  wemo_switches:
+    tap_action:
+      action: toggle
+    hold_action:
+      action: more-info
+    show_name: true
+    state:
+      - value: 'off'
+        color: rgb(50, 50, 50)
+      - value: 'on'
+        color: rgb(200, 200, 0)
+      - value: unavailable
+        color: rgb(150, 150, 150)
+      - value: unknown
+        color: rgb(128, 128, 128)
+    color_type: icon
+    size: 30%
+    confirmation:
+      text: '[[[ return ` ${entity.attributes.friendly_name}! Are you sure?` ]]]'
+    lock:
+      enabled: true
+      unlock: tap
+      duration: 5
+    styles:
+      card:
+        - font-size: 12px
+        - '--mdc-ripple-color': gainsboro
+        - '--mdc-ripple-press-opacity': 0.5
+  locks:
+    tap_action:
+      action: toggle
+    hold_action:
+      action: more-info
+    show_name: true
+    color_type: icon
+    confirmation:
+      text: '[[[ return ` ${entity.attributes.friendly_name}! Are you sure?` ]]]'
+    lock:
+      enabled: true
+      unlock: tap
+      duration: 5
+    styles: null
+  packages:
+    tap_action:
+      action: none
+    hold_action:
+      action: none
+    show_name: false
+    show_state: false
+    color_type: icon
+    state:
+      - styles:
+          icon:
+            - width: 75%
+            - color: black
+        value: none
+      - styles:
+          icon:
+            - width: 75%
+        value: shipped
+        icon: mdi:truck
+      - styles:
+          icon:
+            - width: 75%
+        value: delivering
+        icon: mdi:truck-outline
+      - styles:
+          icon:
+            - width: 75%
+            - animation: pulse 2s infinite
+        value: delivered
+        icon: mdi:truck-check
+    extra_styles: |
+      [[[ return `
+        @keyframes pulse {
+          50% {
+            color: dimgray;
+          }
+        }
+      `]]]
+    style:
+      .: |
+        ha-card {
+          background-color: transparent !important;
+          box-shadow: none !important;
+        }
+  doors:
+    tap_action:
+      action: toggle
+    hold_action:
+      action: more-info
+    show_name: true
+    state:
+      - value: unavailable
+        color: rgb(128, 128, 128)
+      - value: unknown
+        color: rgb(128, 128, 128)
+      - value: 'off'
+        color: rgb(0, 175, 0)
+      - value: 'on'
+        color: rgb(255, 0, 0)
+        styles:
+          icon:
+            - animation: blink 2s infinite
+    color_type: icon
+    size: 30%
+    styles:
+      card:
+        - font-size: 12px
+        - '--mdc-ripple-color': gainsboro
+        - '--mdc-ripple-press-opacity': 0.5
+  lights2:
+    tap_action:
+      action: toggle
+    hold_action:
+      action: more-info
+    show_name: true
+    show_state: false
+    color: auto
+    color_type: icon
+    size: 70%
+    styles:
+      card:
+        - font-size: 12px
+        - '--mdc-ripple-color': gainsboro
+        - '--mdc-ripple-press-opacity': 0.5
+    state:
+      - value: 'off'
+        color: rgb(50, 50, 50)
+  battery_status:
+    tap_action: none
+    hold_action: none
+    double_tap_action: none
+    show_state: true
+    color: rgb(0, 175, 0)
+    show_name: true
+    icon_color: |
+      if (state = 'Charging') return 'rgb(255,140,0)';
+      if (state = 'Not Charging') return 'rgb(120,120,120)';
+      if (state = 'unavailable') return 'rgb(120 ,120,120)';
+    state:
+      - value: 0
+        color: rgb(255, 255, 255)
+        icon: mdi:battery-off
+      - value: 10
+        operator: <=
+        color: rgb(255, 0, 0)
+        icon: mdi:battery-10
+        styles:
+          icon:
+            - animation: blink 2s infinite
+      - value: 20
+        operator: <=
+        color: rgb(255, 255, 0)
+        icon: mdi:battery-20
+      - value: 100
+        operator: '=='
+        color: rgb(0, 175, 0)
+        styles:
+          icon:
+            - animation: blink 2s infinite
+    color_type: icon
+    size: 30%
+    styles:
+      card:
+        - font-size: 12px
+        - '--mdc-ripple-color': gainsboro
+        - '--mdc-ripple-press-opacity': 0.5
+  cpu_status:
+    show_state: true
+    show_name: true
+    color: rgb(0, 175, 0)
+    state:
+      - value: 89
+        operator: '>='
+        color: rgb(255, 0, 0)
+        styles:
+          icon:
+            - animation: blink 2s infinite
+      - value: 74
+        operator: '>='
+        color: rgb(255, 255, 0)
+    styles:
+      card:
+        - font-size: 12px
+        - '--mdc-ripple-color': gainsboro
+        - '--mdc-ripple-press-opacity': 0.5
+    color_type: icon
+    hold_action:
+      action: more-info
+  cpu_temp:
+    show_state: true
+    show_name: true
+    color: rgb(0, 175, 0)
+    icon: mdi:thermometer-low
+    state:
+      - value: 175
+        operator: '>='
+        color: rgb(255, 0, 0)
+        icon: mdi:thermometer-high
+        styles:
+          icon:
+            - animation: blink 2s infinite
+      - value: 125
+        operator: '>='
+        color: rgb(255, 255, 0)
+        icon: thermometer
+    styles:
+      card:
+        - font-size: 12px
+    color_type: icon
+    hold_action:
+      action: more-info
+  network_ping:
+    show_state: false
+    show_name: true
+    size: 100%
+    icon: mdi:circle
+    color: rgb(0, 0, 255)
+    hold_action:
+      action: none
+    state:
+      - value: 'on'
+        color: rgb(0, 255, 0)
+      - value: 'off'
+        color: rgb(255, 0, 0)
+    color_type: icon
+    styles:
+      card:
+        - font-size: 15px
+        - height: 75px
+        - '--mdc-ripple-color': gainsboro
+        - '--mdc-ripple-press-opacity': 0.5
+kiosk_mode:
+  non_admin_settings:
+    hide_header: true
+views:
+  - title: Main
+    path: main
+    icon: mdi:home-variant
+    theme: blackened
+    visible:
+      - user: 4bc7f5a0e72c4d15a20de2794d1ba9f3
+      - user: bca22163992540b696fd9b5ce2f3c973
+    type: sidebar
+    badges: []
+    cards:
+      - type: conditional
+        conditions:
+          - entity: input_select.tablet_main
+            state: overview
+        card:
+          type: horizontal-stack
+          cards:
+            - type: vertical-stack
+              cards:
+                - type: horizontal-stack
+                  title: Rooms
+                  cards:
+                    - type: custom:button-card
+                      entity: light.living_room_lights
+                      color_type: icon
+                      color: ghostwhite
+                      name: Living Room
+                      size: 55%
+                      template: lights2
+                    - type: custom:button-card
+                      entity: light.master_bedroom_lights
+                      color_type: icon
+                      color: ghostwhite
+                      name: Master Bedroom
+                      size: 55%
+                      template: lights2
+                      image: local/images/master.png
+                      state_filter:
+                        'on': brightness(110%) saturate(1.2)
+                        'off': brightness(0%)
+                    - type: custom:button-card
+                      entity: light.bathroom_lights
+                      color_type: icon
+                      color: ghostwhite
+                      name: Bathroom
+                      size: 55%
+                      template: lights2
+                - type: horizontal-stack
+                  cards:
+                    - type: custom:button-card
+                      entity: light.office_lights
+                      color_type: icon
+                      color: ghostwhite
+                      name: Office
+                      size: 55%
+                      template: lights2
+                    - type: custom:button-card
+                      entity: light.guest_room_lights
+                      color_type: icon
+                      color: ghostwhite
+                      name: Guest Room
+                      size: 55%
+                      template: lights2
+                    - type: custom:button-card
+                      entity: light.outside_lights
+                      template: lights2
+                      color_type: icon
+                      color: ghostwhite
+                      name: Outside
+                      size: 55%
+                - type: horizontal-stack
+                  title: Living Room
+                  cards:
+                    - type: custom:button-card
+                      entity: light.window
+                      template: lights2
+                      name: Window
+                    - type: custom:button-card
+                      entity: light.reading_lamp
+                      template: lights2
+                      name: Corner
+                      color: white
+                    - type: custom:button-card
+                      entity: light.corner
+                      template: lights2
+                      name: Corner
+                    - type: custom:button-card
+                      entity: light.tv_stand
+                      template: lights2
+                      name: TV Stand
+                    - type: custom:button-card
+                      entity: switch.ceiling_fan
+                      template: lights2
+                      icon: mdi:fan
+                      color: white
+                      name: Ceiling
+                      state:
+                        - value: 'on'
+                          styles:
+                            icon:
+                              - animation:
+                                  - rotating 1s linear infinite
+                - type: horizontal-stack
+                  title: Master Bedroom / Bathroom
+                  cards:
+                    - type: custom:button-card
+                      entity: light.dresser
+                      name: Dresser
+                      template: lights2
+                    - type: custom:button-card
+                      entity: light.nightstand
+                      template: lights2
+                      name: Nightstand
+                    - type: custom:button-card
+                      tap_action:
+                        action: toggle
+                      entity: input_boolean.guest
+                      show_state: false
+                      show_name: false
+                      size: 57%
+                      styles:
+                        card:
+                          - font-size: 12px
+                      state:
+                        - value: 'off'
+                          color: black
+                        - value: 'on'
+                          color: rgb(0, 175, 0)
+                          name: Guest
+                    - type: custom:button-card
+                      entity: light.bathroom_light
+                      color: white
+                      name: Bathroom
+                      template: lights2
+                    - type: custom:button-card
+                      entity: light.bathroom_fan
+                      template: lights2
+                      icon: mdi:fan
+                      color: white
+                      name: Fan
+                      state:
+                        - value: 'on'
+                          styles:
+                            icon:
+                              - animation:
+                                  - rotating 1s linear reverse infinite
+                - type: horizontal-stack
+                  title: Office / Guest Room
+                  cards:
+                    - type: custom:button-card
+                      entity: light.office_light
+                      name: Office
+                      color: white
+                      template: lights2
+                    - type: custom:button-card
+                      entity: light.office_globe
+                      name: Globe
+                      template: lights2
+                    - type: custom:button-card
+                      entity: light.office_bloom
+                      name: Bloom
+                      template: lights2
+                    - type: custom:button-card
+                      entity: light.guest_room_lamp
+                      template: lights2
+                      color: white
+                      name: Guest Light
+                    - type: custom:button-card
+                      entity: light.guest_strip
+                      template: lights2
+                      name: Light Strip
+                - type: horizontal-stack
+                  title: Outside
+                  cards:
+                    - type: custom:button-card
+                      entity: light.front_porch_light
+                      template: lights2
+                      icon: bha:outdoor-lamp-solo
+                      name: Front Door
+                    - type: custom:button-card
+                      color_type: blank-card
+                    - type: custom:button-card
+                      entity: light.garage_door_light
+                      template: lights2
+                      icon: bha:outdoor-lamp-solo
+                      name: Garage
+                    - type: custom:button-card
+                      color_type: blank-card
+                    - type: custom:button-card
+                      entity: light.rear_deck_light
+                      template: lights2
+                      icon: bha:outdoor-lamp-solo
+                      color: white
+                      name: Rear Deck
+            - cards:
+                - type: custom:weather-card
+                  entity: weather.home
+                  number_of_forecasts: '5'
+                  forecast: false
+                  hourly_forecast: false
+                  details: false
+                - entities:
+                    - entity: cover.garage_door
+                      type: garage
+                    - entity: person.keith
+                      state_map:
+                        'off': away
+                        'on': home
+                      type: car2
+                    - entity: light.garage_door_light
+                      state_map:
+                        'off': 'off'
+                        'on': 'on'
+                      type: garage_door_light
+                    - entity: light.outside_lights
+                      state_map:
+                        'off': 'off'
+                        'on': 'on'
+                      type: front_door_light
+                    - entity: light.rear_deck_light
+                      state_map:
+                        'off': 'off'
+                        'on': 'on'
+                      type: back_door_light
+                    - entity: input_boolean.mail
+                      state_map:
+                        'off': 'off'
+                        'on': 'on'
+                      type: mail
+                    - entity: input_boolean.recycle_week
+                      state_map:
+                        'on': 'on'
+                      type: recycle
+                    - entity: input_select.amazon_packages
+                      state_map:
+                        'on': delivered
+                      type: amazon-delivered
+                    - entity: input_select.fedex_packages
+                      state_map:
+                        'on': delivered
+                      type: fedex-delivered
+                    - entity: input_select.ups_packages
+                      state_map:
+                        'on': delivered
+                      type: ups-delivered
+                    - entity: input_select.dhl_packages
+                      state_map:
+                        'on': delivered
+                      type: dhl-delivered
+                    - entity: input_select.usps_packages
+                      state_map:
+                        'on': delivered
+                      type: usps-delivered
+                    - entity: light.guest_room_lights
+                      type: downstairs_light
+                    - entity: light.office_lights
+                      type: office_light
+                    - entity: light.master_bedroom_lights
+                      type: upstairs_light
+                    - entity: light.outside_lights
+                      type: door
+                    - entity: light.living_room_lights
+                      type: garage2
+                    - entity: light.guest_room_lights
+                      type: flag
+                  theme: ranch_with_three_stall_garage
+                  type: custom:home-card
+                  background: transparent
+                - cards:
+                    - entity: input_select.dhl_packages
+                      show_name: false
+                      tap_action: none
+                      size: 75%
+                      color_type: icon
+                      color: yellow
+                      type: custom:button-card
+                      template: packages
+                    - entity: input_select.fedex_packages
+                      show_name: false
+                      tap_action: none
+                      size: 75%
+                      color_type: icon
+                      color: dodgerblue
+                      type: custom:button-card
+                      template: packages
+                    - entity: input_boolean.mail
+                      show_name: false
+                      tap_action: none
+                      size: 75%
+                      color_type: icon
+                      icon: mdi:mailbox-up
+                      state:
+                        - value: 'off'
+                          color: black
+                        - value: 'on'
+                          color: lightskyblue
+                      type: custom:button-card
+                      style:
+                        .: |
+                          ha-card {
+                            background-color: transparent !important;
+                            box-shadow: none !important;
+                          }
+                    - entity: input_select.usps_packages
+                      show_name: false
+                      tap_action: none
+                      size: 75%
+                      color_type: icon
+                      color: lightskyblue
+                      type: custom:button-card
+                      template: packages
+                    - entity: vacuum.roomba
+                      type: custom:button-card
+                      template: roomba
+                    - entity: input_boolean.recycle_week
+                      show_name: false
+                      tap_action: none
+                      state:
+                        - styles:
+                            card: null
+                            icon:
+                              - width: 75%
+                              - opacity: 0.5
+                              - color: lime
+                          value: 'on'
+                        - styles:
+                            card: null
+                            icon:
+                              - width: 75%
+                              - color: black
+                          value: 'off'
+                      type: custom:button-card
+                      style:
+                        .: |
+                          ha-card {
+                            background-color: transparent !important;
+                            box-shadow: none !important;
+                          }
+                    - entity: input_select.amazon_packages
+                      show_name: false
+                      tap_action: none
+                      size: 75%
+                      color_type: icon
+                      color: rgb(255, 153, 0)
+                      type: custom:button-card
+                      template: packages
+                    - entity: input_select.ups_packages
+                      show_name: false
+                      tap_action: none
+                      size: 75%
+                      color_type: icon
+                      color: tan
+                      type: custom:button-card
+                      template: packages
+                  type: horizontal-stack
+                - type: custom:weather-card
+                  number_of_forecasts: '5'
+                  entity: weather.home
+                  current: false
+                  forecast: true
+                  hourly_forecast: false
+                  details: true
+                - type: custom:mail-and-packages-card
+                  updated: sensor.mail_updated
+                  details: true
+                  image: false
+                  fedex_packages: sensor.mail_fedex_packages
+                  ups_packages: sensor.mail_ups_packages
+                  usps_packages: sensor.mail_usps_packages
+                  amazon_packages: sensor.mail_amazon_packages
+                  usps_mail: sensor.mail_usps_mail
+                  camera_entity: camera.mail_usps
+                  camera: false
+                - type: horizontal-stack
+                  cards:
+                    - type: custom:button-card
+                      entity: sensor.iphone_battery_state_icloud
+                      template: battery_status
+                      size: 50%
+                      name: iphone
+                    - type: custom:button-card
+                      entity: sensor.apple_watch_battery_state_icloud
+                      template: battery_status
+                      size: 50%
+                      name: Watch
+                      show_state: true
+                    - type: custom:button-card
+                      entity: sensor.ipad_pro_battery_state_icloud
+                      template: battery_status
+                      size: 50%
+                      name: iPad
+                      show_state: true
+                    - type: custom:button-card
+                      entity: sensor.iphone2_battery_state_icloud
+                      template: battery_status
+                      size: 50%
+                      name: GM iPhone
+                  view_layout:
+                    position: sidebar
+              type: vertical-stack
+            - type: vertical-stack
+              cards:
+                - type: horizontal-stack
+                  title: Front Door
+                  cards:
+                    - type: custom:button-card
+                      entity: light.front_porch_light
+                      template: lights2
+                      icon: bha:outdoor-lamp-solo
+                      name: Front Door
+                      size: 60%
+                    - type: custom:button-card
+                      entity: binary_sensor.front_door_open
+                      template: doors
+                      show_state: true
+                      show_name: false
+                      color_type: icon
+                      size: 60%
+                      name: Front Door
+                    - type: custom:button-card
+                      entity: sensor.front_door_battery
+                      template: battery_status
+                      state:
+                        - value: 4
+                          color: rgb(255, 0, 0)
+                        - value: 3
+                          color: rgb(255, 0, 0)
+                        - value: 2
+                          color: rgb(255, 0, 0)
+                        - value: 1
+                          color: rgb(255, 0, 0)
+                        - value: 0
+                          color: rgb(255, 0, 0)
+                        - value: unavailable
+                          color: rgb(0, 255, 255)
+                        - value: 100
+                          color: rgb(106, 90, 205)
+                          icon: mdi:battery-high
+                      size: 60%
+                      name: Front Door
+                      show_name: false
+                    - entity: lock.front_door
+                      show_name: false
+                      show_state: true
+                      template: locks
+                      state:
+                        - icon: mdi:lock
+                          styles:
+                            card: null
+                            icon:
+                              - width: 60%
+                              - color: rgb(0, 175, 0)
+                          value: locked
+                        - icon: mdi:lock-open
+                          name: UNLOCKED
+                          styles:
+                            icon:
+                              - width: 60%
+                              - color: yellow
+                              - animation: pulse 2s infinite
+                          value: unlocked
+                        - icon: mdi:lock
+                          name: Unavailable
+                          styles:
+                            card: null
+                            icon:
+                              - width: 60%
+                              - color: rgb(128, 128, 125)
+                          value: unavailable
+                        - icon: mdi:lock
+                          name: Unknown
+                          styles:
+                            card: null
+                            icon:
+                              - width: 60%
+                              - color: rgb(0, 255, 255)
+                            name:
+                              - padding: 5px
+                              - font-size: 10px
+                              - text-overflow: unset
+                              - white-space: unset
+                              - word-break: break-word
+                              - color: rgb(0, 255, 255)
+                          value: unknown
+                        - icon: mdi:lock
+                          name: Unknown
+                          styles:
+                            card: null
+                            icon:
+                              - width: 60%
+                              - color: rgb(0, 255, 255)
+                            name:
+                              - padding: 5px
+                              - font-size: 10px
+                              - text-overflow: unset
+                              - white-space: unset
+                              - word-break: break-word
+                              - color: rgb(0, 255, 255)
+                          value: locking
+                        - icon: mdi:lock
+                          name: Unknown
+                          styles:
+                            card: null
+                            icon:
+                              - width: 60%
+                              - color: rgb(0, 255, 255)
+                            name:
+                              - padding: 5px
+                              - font-size: 10px
+                              - text-overflow: unset
+                              - white-space: unset
+                              - word-break: break-word
+                              - color: rgb(0, 255, 255)
+                          value: unlocking
+                      type: custom:button-card
+                      extra_styles: |
+                        [[[ return `
+                          @keyframes pulse {
+                            50% {
+                              color: dimgray;
+                            }
+                          }
+                        `]]]
+                      style:
+                        .: |
+                          ha-card {
+                            background-color: transparent !important;
+                            box-shadow: none !important;
+                          }
+                      styles:
+                        card:
+                          - font-size: 12px
+                          - '--mdc-ripple-color': gainsboro
+                          - '--mdc-ripple-press-opacity': 0.5
+                      lock:
+                        enabled: true
+                        unlock: tap
+                        duration: 5
+                      confirmation:
+                        text: >-
+                          [[[ return ` ${entity.attributes.friendly_name}! Are
+                          you sure?` ]]]
+                - type: horizontal-stack
+                  title: Back Door
+                  cards:
+                    - type: custom:button-card
+                      entity: light.rear_deck_light
+                      template: lights2
+                      icon: bha:outdoor-lamp-solo
+                      color: white
+                      name: Back Door
+                      size: 60%
+                    - type: custom:button-card
+                      entity: binary_sensor.back_door_open
+                      template: doors
+                      show_state: true
+                      show_name: false
+                      color_type: icon
+                      size: 60%
+                      name: Back Door
+                    - type: custom:button-card
+                      entity: sensor.back_door_battery
+                      template: battery_status
+                      state:
+                        - value: 4
+                          color: rgb(255, 0, 0)
+                        - value: 3
+                          color: rgb(255, 0, 0)
+                        - value: 2
+                          color: rgb(255, 0, 0)
+                        - value: 1
+                          color: rgb(255, 0, 0)
+                        - value: 0
+                          color: rgb(255, 0, 0)
+                        - value: unavailable
+                          color: rgb(0, 255, 255)
+                      size: 60%
+                      name: Back Door
+                      show_name: false
+                    - entity: lock.back_door
+                      show_name: false
+                      show_state: true
+                      template: locks
+                      state:
+                        - icon: mdi:lock
+                          styles:
+                            card: null
+                            icon:
+                              - width: 60%
+                              - color: rgb(0, 175, 0)
+                          value: locked
+                        - icon: mdi:lock-open
+                          name: UNLOCKED
+                          styles:
+                            icon:
+                              - width: 60%
+                              - color: yellow
+                              - animation: pulse 2s infinite
+                          value: unlocked
+                        - icon: mdi:lock
+                          name: Unavailable
+                          styles:
+                            card: null
+                            icon:
+                              - width: 60%
+                              - color: rgb(128, 128, 125)
+                          value: unavailable
+                        - icon: mdi:lock
+                          name: Unknown
+                          styles:
+                            card: null
+                            icon:
+                              - width: 60%
+                              - color: rgb(0, 255, 255)
+                            name:
+                              - padding: 5px
+                              - font-size: 10px
+                              - text-overflow: unset
+                              - white-space: unset
+                              - word-break: break-word
+                              - color: rgb(0, 255, 255)
+                          value: unknown
+                        - icon: mdi:lock
+                          name: Unknown
+                          styles:
+                            card: null
+                            icon:
+                              - width: 60%
+                              - color: rgb(0, 255, 255)
+                            name:
+                              - padding: 5px
+                              - font-size: 10px
+                              - text-overflow: unset
+                              - white-space: unset
+                              - word-break: break-word
+                              - color: rgb(0, 255, 255)
+                          value: locking
+                        - icon: mdi:lock
+                          name: Unknown
+                          styles:
+                            card: null
+                            icon:
+                              - width: 60%
+                              - color: rgb(0, 255, 255)
+                            name:
+                              - padding: 5px
+                              - font-size: 10px
+                              - text-overflow: unset
+                              - white-space: unset
+                              - word-break: break-word
+                              - color: rgb(0, 255, 255)
+                          value: unlocking
+                      type: custom:button-card
+                      extra_styles: |
+                        [[[ return `
+                          @keyframes pulse {
+                            50% {
+                              color: dimgray;
+                            }
+                          }
+                        `]]]
+                      style:
+                        .: |
+                          ha-card {
+                            background-color: transparent !important;
+                            box-shadow: none !important;
+                          }
+                      styles:
+                        card:
+                          - font-size: 12px
+                          - '--mdc-ripple-color': gainsboro
+                          - '--mdc-ripple-press-opacity': 0.5
+                      lock:
+                        enabled: true
+                        unlock: tap
+                        duration: 5
+                      confirmation:
+                        text: >-
+                          [[[ return ` ${entity.attributes.friendly_name}! Are
+                          you sure?` ]]]
+                - type: horizontal-stack
+                  title: Garage
+                  cards:
+                    - type: custom:button-card
+                      entity: light.garage_door_light
+                      template: lights2
+                      icon: bha:outdoor-lamp-solo
+                      size: 60%
+                      name: Garage
+                    - type: custom:button-card
+                      entity: switch.garage_opener
+                      template: wemo_switches
+                      name: Garage Opener
+                      size: 60%
+                      icon: mdi:light-switch
+                    - type: custom:button-card
+                      entity: sensor.garage_door_sensor_power
+                      template: battery_status
+                      show_state: true
+                      show_name: false
+                      color: rgb(0, 175, 0)
+                      state:
+                        - value: 4
+                          color: rgb(255, 0, 0)
+                        - value: 3
+                          color: rgb(255, 0, 0)
+                        - value: 2
+                          color: rgb(255, 0, 0)
+                        - value: 1
+                          color: rgb(255, 0, 0)
+                        - value: 0
+                          color: rgb(255, 0, 0)
+                        - value: unavailable
+                          color: rgb(0, 255, 255)
+                      color_type: icon
+                      size: 60%
+                    - type: custom:button-card
+                      entity: cover.garage_door
+                      template: wemo_switches
+                      show_name: false
+                      show_state: true
+                      icon: mdi:garage-variant
+                      color: rgb(0, 175, 0)
+                      state:
+                        - value: open
+                          color: rgb(255, 0, 0)
+                          icon: mdi:garage-open-variant
+                          styles:
+                            icon:
+                              - animation: blink 2s infinite
+                        - value: opening
+                          color: rgb(200, 200, 0)
+                          icon: mdi:garage-alert-variant
+                        - value: closing
+                          color: rgb(200, 200, 0)
+                          icon: mdi:garage-alert-variant
+                        - value: unavailable
+                          color: rgb(0, 255, 255)
+                          icon: mdi:garage-alert-variant
+                      size: 60%
+                      tap_action:
+                        action: call-service
+                        service: script.toggle_garage_door
+                - type: horizontal-stack
+                  title: Switches
+                  cards:
+                    - type: custom:button-card
+                      entity: switch.hablue
+                      template: wemo_switches
+                      name: Home Assistant
+                      size: 60%
+                      icon: mdi:home-assistant
+                    - type: custom:button-card
+                      entity: switch.mac_mini
+                      name: Mac Mini
+                      size: 60%
+                      tap_action:
+                        action: toggle
+                        hold_action:
+                          action: more-info
+                      show_name: true
+                      state:
+                        - value: 'off'
+                          color: rgb(50, 50, 50)
+                          icon: mdi:desktop-mac
+                        - value: 'on'
+                          color: rgb(200, 200, 0)
+                          icon: mdi:desktop-mac-dashboard
+                        - value: unknown
+                          color: rgb(128, 128, 128)
+                        - value: unavailable
+                          color: rgb(128, 128, 128)
+                      color_type: icon
+                      confirmation:
+                        text: >-
+                          [[[ return ` ${entity.attributes.friendly_name}! Are
+                          you sure?` ]]]
+                      lock:
+                        enabled: true
+                        unlock: tap
+                        duration: 5
+                      styles:
+                        card:
+                          - font-size: 12px
+                          - '--mdc-ripple-color': gainsboro
+                          - '--mdc-ripple-press-opacity': 0.5
+                    - type: custom:button-card
+                      entity: switch.amplifi_router_2
+                      template: wemo_switches
+                      name: AmpliFi Mesh
+                      size: 60%
+                      icon: mdi:access-point
+                    - type: custom:button-card
+                      entity: switch.garage_opener
+                      template: wemo_switches
+                      name: Garage Opener
+                      size: 60%
+                      icon: mdi:light-switch
+                - type: horizontal-stack
+                  cards:
+                    - type: custom:button-card
+                      entity: switch.front_door_connect
+                      template: wemo_switches
+                      name: Front Door
+                      size: 60%
+                      icon: mdi:power-cycle
+                    - type: custom:button-card
+                      entity: switch.back_door_connect
+                      template: wemo_switches
+                      name: Back Door
+                      size: 60%
+                      icon: mdi:power-cycle
+                    - type: custom:button-card
+                      entity: switch.coffee_maker
+                      template: wemo_switches
+                      name: Coffee Maker
+                      size: 60%
+                      icon: mdi:coffee-maker
+                    - type: custom:button-card
+                      entity: switch.toaster_oven
+                      template: wemo_switches
+                      name: Toaster Oven
+                      size: 60%
+                      icon: mdi:toaster-oven
+                - type: horizontal-stack
+                  title: Home Assistant
+                  cards:
+                    - type: custom:button-card
+                      entity: sensor.processor_use
+                      template: cpu_status
+                      size: 55%
+                      icon: mdi:chip
+                      name: CPU
+                    - type: custom:button-card
+                      entity: sensor.memory_use_percent
+                      template: cpu_status
+                      size: 55%
+                      icon: mdi:memory
+                      name: Memory
+                      show_state: true
+                    - type: custom:button-card
+                      entity: sensor.disk_use_percent_home
+                      template: cpu_status
+                      size: 55%
+                      icon: mdi:database
+                      name: Storage
+                      show_state: true
+                    - type: custom:button-card
+                      entity: sensor.cpu_temp
+                      template: cpu_temp
+                      size: 55%
+                      name: CPU Temp
+      - type: conditional
+        conditions:
+          - entity: input_select.tablet_main
+            state: house
+        card:
+          cards:
+            - background: transparent
+              entities:
+                - entity: cover.garage_door
+                  type: garage
+                - entity: person.keith
+                  state_map:
+                    'off': away
+                    'on': home
+                  type: car2
+                - entity: light.garage_door_light
+                  state_map:
+                    'off': 'off'
+                    'on': 'on'
+                  type: garage_door_light
+                - entity: light.front_porch_light
+                  state_map:
+                    'off': 'off'
+                    'on': 'on'
+                  type: front_door_light
+                - entity: light.rear_deck_light
+                  state_map:
+                    'off': 'off'
+                    'on': 'on'
+                  type: back_door_light
+                - entity: input_boolean.mail
+                  state_map:
+                    'off': 'off'
+                    'on': 'on'
+                  type: mail
+                - entity: input_boolean.recycle_week
+                  state_map:
+                    'on': 'on'
+                  type: recycle
+                - entity: input_select.amazon_packages
+                  state_map:
+                    'on': delivered
+                  type: amazon-delivered
+                - entity: input_select.fedex_packages
+                  state_map:
+                    'on': delivered
+                  type: fedex-delivered
+                - entity: input_select.ups_packages
+                  state_map:
+                    'on': delivered
+                  type: ups-delivered
+                - entity: input_select.dhl_packages
+                  state_map:
+                    'on': delivered
+                  type: dhl-delivered
+                - entity: input_select.usps_packages
+                  state_map:
+                    'on': delivered
+                  type: usps-delivered
+                - entity: light.guest_room_lights
+                  type: downstairs_light
+                - entity: light.office_lights
+                  type: office_light
+                - entity: light.master_bedroom_lights
+                  type: upstairs_light
+                - entity: light.outside_lights
+                  type: door
+                - entity: light.living_room_lights
+                  type: garage2
+                - entity: light.guest_room_lights
+                  type: flag
+              theme: ranch_with_three_stall_garage
+              type: custom:home-card
+              weather: weather.dayton
+            - cards:
+                - entity: input_select.dhl_packages
+                  size: 75%
+                  color: yellow
+                  type: custom:button-card
+                  template: packages
+                - entity: binary_sensor.front_door_open
+                  extra_styles: |
+                    @keyframes pulse {
+                      0% {
+                        -moz-box-shadow: 0 0 0 0 rgba(255,0,0, 0.7);
+                        box-shadow: 0 0 0 0 rgba(255,0,0, 0.7);
+                      }
+                      70% {
+                          -moz-box-shadow: 0 0 0 10px rrgba(240,52,52, 0.9);
+                          box-shadow: 0 0 0 10px rgba(240,52,52, 0.7);
+                      }
+                      100% {
+                          -moz-box-shadow: 0 0 0 0 rgba(240,52,52, 0);
+                          box-shadow: 0 0 0 0 rgba(240,52,52, 0);
+                      }
+                    }
+                  tap_action: none
+                  icon: mdi:door
+                  show_name: false
+                  state:
+                    - icon: mdi:door
+                      styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - opacity: 0.5
+                          - color: black
+                      value: 'off'
+                    - icon: mdi:door-open
+                      name: OPEN
+                      operator: default
+                      styles:
+                        icon:
+                          - animation: blink 2s infinite
+                          - width: 75%
+                          - color: red
+                    - icon: mdi:door
+                      name: Unavailable
+                      styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - opacity: 0.5
+                          - color: rgb(128, 128, 128)
+                      value: unavailable
+                    - icon: mdi:door
+                      name: Unknown
+                      styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - opacity: 0.5
+                          - color: rgb(0, 255, 255)
+                      value: unknown
+                  type: custom:button-card
+                  style:
+                    .: |
+                      ha-card {
+                        background-color: transparent !important;
+                        box-shadow: none !important;
+                      }
+                - entity: lock.front_door
+                  show_name: false
+                  state:
+                    - icon: mdi:lock
+                      styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - color: black
+                      value: locked
+                    - icon: mdi:lock-open
+                      name: UNLOCKED
+                      styles:
+                        icon:
+                          - width: 75%
+                          - color: yellow
+                          - animation: pulse 2s infinite
+                      value: unlocked
+                    - icon: mdi:lock
+                      name: Unavailable
+                      styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - color: rgb(128, 128, 125)
+                      value: unavailable
+                    - icon: mdi:lock
+                      name: Unknown
+                      styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - color: rgb(0, 255, 255)
+                        name:
+                          - padding: 5px
+                          - font-size: 10px
+                          - text-overflow: unset
+                          - white-space: unset
+                          - word-break: break-word
+                          - color: rgb(0, 255, 255)
+                      value: unknown
+                    - icon: mdi:lock
+                      name: Unknown
+                      styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - color: rgb(0, 255, 255)
+                        name:
+                          - padding: 5px
+                          - font-size: 10px
+                          - text-overflow: unset
+                          - white-space: unset
+                          - word-break: break-word
+                          - color: rgb(0, 255, 255)
+                      value: locking
+                    - icon: mdi:lock
+                      name: Unknown
+                      styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - color: rgb(0, 255, 255)
+                        name:
+                          - padding: 5px
+                          - font-size: 10px
+                          - text-overflow: unset
+                          - white-space: unset
+                          - word-break: break-word
+                          - color: rgb(0, 255, 255)
+                      value: unlocking
+                  type: custom:button-card
+                  extra_styles: |
+                    [[[ return `
+                      @keyframes pulse {
+                        50% {
+                          color: gainsboro;
+                        }
+                      }
+                    `]]]
+                  style:
+                    .: |
+                      ha-card {
+                        background-color: transparent !important;
+                        box-shadow: none !important;
+                      }
+                - entity: input_select.fedex_packages
+                  show_name: false
+                  tap_action: none
+                  size: 75%
+                  color_type: icon
+                  color: dodgerblue
+                  type: custom:button-card
+                  template: packages
+                - entity: input_boolean.mail
+                  show_name: false
+                  tap_action: none
+                  size: 75%
+                  color_type: icon
+                  icon: mdi:mailbox-up
+                  state:
+                    - value: 'off'
+                      color: black
+                    - value: 'on'
+                      color: lightskyblue
+                  type: custom:button-card
+                  style:
+                    .: |
+                      ha-card {
+                        background-color: transparent !important;
+                        box-shadow: none !important;
+                      }
+                - entity: input_select.usps_packages
+                  show_name: false
+                  tap_action: none
+                  size: 75%
+                  color_type: icon
+                  color: lightskyblue
+                  type: custom:button-card
+                  template: packages
+                - entity: input_boolean.guest
+                  show_name: false
+                  tap_action:
+                    action: toggle
+                  icon: mdi:account-star
+                  state:
+                    - styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - opacity: 0.5
+                          - color: lime
+                      value: 'on'
+                    - styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - color: black
+                      value: 'off'
+                  type: custom:button-card
+                  style:
+                    .: |
+                      ha-card {
+                        background-color: transparent !important;
+                        box-shadow: none !important;
+                      }
+                - entity: vacuum.roomba
+                  type: custom:button-card
+                  template: roomba
+                - entity: switch.garage_opener
+                  show_name: false
+                  tap_action: none
+                  state:
+                    - styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - opacity: 0.5
+                          - color: black
+                      value: 'on'
+                    - styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - color: rgb(100, 100, 100)
+                      value: 'off'
+                  type: custom:button-card
+                  style:
+                    .: |
+                      ha-card {
+                        background-color: transparent !important;
+                        box-shadow: none !important;
+                      }
+                - entity: cover.garage_door
+                  extra_styles: |
+                    @keyframes pulse {
+                      0% {
+                        -moz-box-shadow: 0 0 0 0 rgba(255,0,0, 0.7);
+                        box-shadow: 0 0 0 0 rgba(255,0,0, 0.7);
+                      }
+                      70% {
+                          -moz-box-shadow: 0 0 0 10px rrgba(240,52,52, 0.9);
+                          box-shadow: 0 0 0 10px rgba(240,52,52, 0.7);
+                      }
+                      100% {
+                          -moz-box-shadow: 0 0 0 0 rgba(240,52,52, 0);
+                          box-shadow: 0 0 0 0 rgba(240,52,52, 0);
+                      }
+                    }
+                  icon: mdi:garage
+                  tap_action: none
+                  name: Closed
+                  show_name: false
+                  state:
+                    - icon: mdi:garage-variant
+                      styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - opacity: 0.5
+                          - color: black
+                      value: closed
+                    - icon: mdi:garage-open-variant
+                      name: OPEN
+                      operator: default
+                      styles:
+                        icon:
+                          - animation: blink 2s infinite
+                          - width: 75%
+                          - color: red
+                          - word-break: break-word
+                      value: open
+                    - icon: mdi:garage-alert-variant
+                      name: Unavailable
+                      styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - opacity: 0.5
+                          - color: rgb(128, 128, 125)
+                      value: unavailable
+                    - icon: mdi:garage-alert-variant
+                      name: Unknown
+                      styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - opacity: 0.5
+                          - color: rgb(0, 255, 255)
+                      value: unknown
+                  type: custom:button-card
+                  style:
+                    .: |
+                      ha-card {
+                        background-color: transparent !important;
+                        box-shadow: none !important;
+                      }
+                - entity: input_boolean.recycle_week
+                  show_name: false
+                  tap_action: none
+                  state:
+                    - styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - opacity: 0.5
+                          - color: lime
+                      value: 'on'
+                    - styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - color: black
+                      value: 'off'
+                  type: custom:button-card
+                  style:
+                    .: |
+                      ha-card {
+                        background-color: transparent !important;
+                        box-shadow: none !important;
+                      }
+                - entity: input_select.amazon_packages
+                  show_name: false
+                  tap_action: none
+                  size: 75%
+                  color_type: icon
+                  color: rgb(255, 153, 0)
+                  type: custom:button-card
+                  template: packages
+                - entity: lock.back_door
+                  show_name: false
+                  state:
+                    - icon: mdi:lock
+                      styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - color: black
+                      value: locked
+                    - icon: mdi:lock-open
+                      name: UNLOCKED
+                      styles:
+                        icon:
+                          - width: 75%
+                          - color: yellow
+                          - animation: pulse 2s infinite
+                      value: unlocked
+                    - icon: mdi:lock
+                      name: Unavailable
+                      styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - color: rgb(128, 128, 125)
+                      value: unavailable
+                    - icon: mdi:lock
+                      name: Unknown
+                      styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - color: rgb(0, 255, 255)
+                        name:
+                          - padding: 5px
+                          - font-size: 10px
+                          - text-overflow: unset
+                          - white-space: unset
+                          - word-break: break-word
+                          - color: rgb(0, 255, 255)
+                      value: unknown
+                    - icon: mdi:lock
+                      name: Unknown
+                      styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - color: rgb(0, 255, 255)
+                        name:
+                          - padding: 5px
+                          - font-size: 10px
+                          - text-overflow: unset
+                          - white-space: unset
+                          - word-break: break-word
+                          - color: rgb(0, 255, 255)
+                      value: locking
+                    - icon: mdi:lock
+                      name: Unknown
+                      styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - color: rgb(0, 255, 255)
+                        name:
+                          - padding: 5px
+                          - font-size: 10px
+                          - text-overflow: unset
+                          - white-space: unset
+                          - word-break: break-word
+                          - color: rgb(0, 255, 255)
+                      value: unlocking
+                  type: custom:button-card
+                  extra_styles: |
+                    [[[ return `
+                      @keyframes pulse {
+                        50% {
+                          color: gainsboro;
+                        }
+                      }
+                    `]]]
+                  style:
+                    .: |
+                      ha-card {
+                        background-color: transparent !important;
+                        box-shadow: none !important;
+                      }
+                - entity: binary_sensor.back_door_open
+                  extra_styles: |
+                    @keyframes pulse {
+                      0% {
+                        -moz-box-shadow: 0 0 0 0 rgba(255,0,0, 0.7);
+                        box-shadow: 0 0 0 0 rgba(255,0,0, 0.7);
+                      }
+                      70% {
+                          -moz-box-shadow: 0 0 0 10px rrgba(240,52,52, 0.9);
+                          box-shadow: 0 0 0 10px rgba(240,52,52, 0.7);
+                      }
+                      100% {
+                          -moz-box-shadow: 0 0 0 0 rgba(240,52,52, 0);
+                          box-shadow: 0 0 0 0 rgba(240,52,52, 0);
+                      }
+                    }
+                  icon: mdi:door
+                  name: Closed
+                  tap_action: none
+                  show_name: false
+                  state:
+                    - icon: mdi:door
+                      styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - opacity: 0.5
+                          - color: black
+                      value: 'off'
+                    - icon: mdi:door-open
+                      name: OPEN
+                      operator: default
+                      styles:
+                        icon:
+                          - animation: blink 2s infinite
+                          - width: 75%
+                          - color: red
+                      value: 'on'
+                    - icon: mdi:door
+                      name: Unavailable
+                      styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - opacity: 0.5
+                          - color: rgb(128, 128, 125)
+                      value: unavailable
+                    - icon: mdi:door
+                      name: Unknown
+                      styles:
+                        card: null
+                        icon:
+                          - width: 75%
+                          - opacity: 0.5
+                          - color: rgb(0, 255, 255)
+                  type: custom:button-card
+                  style:
+                    .: |
+                      ha-card {
+                        background-color: transparent !important;
+                        box-shadow: none !important;
+                      }
+                - entity: input_select.ups_packages
+                  show_name: false
+                  tap_action: none
+                  size: 75%
+                  color_type: icon
+                  color: tan
+                  type: custom:button-card
+                  template: packages
+              type: horizontal-stack
+          type: vertical-stack
+      - type: horizontal-stack
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: custom:button-card
+                entity: input_select.tablet_main
+                transition: flip
+                default: overview
+                show_icon: false
+                layout: vertical
+                name: Overview
+                tap_action:
+                  action: call-service
+                  service: input_select.select_option
+                  service_data:
+                    entity_id: input_select.tablet_main
+                    option: overview
+                state:
+                  - value: overview
+                    styles:
+                      card:
+                        - background: linear-gradient(rgb(100,0,237), rgb(0,0,0) )
+                styles:
+                  card:
+                    - background: linear-gradient(rgb(50,50,50), rgb(0,0,0) )
+                    - font-size: 36px
+              - type: custom:button-card
+                entity: input_select.tablet_main
+                default: overview
+                show_icon: false
+                layout: vertical
+                name: Mail
+                tap_action:
+                  action: call-service
+                  service: input_select.select_option
+                  service_data:
+                    entity_id: input_select.tablet_main
+                    option: mail
+                state:
+                  - value: mail
+                    styles:
+                      card:
+                        - background: linear-gradient(rgb(100,0,237), rgb(0,0,0) )
+                styles:
+                  card:
+                    - background: linear-gradient(rgb(50,50,50), rgb(0,0,0) )
+                    - font-size: 36px
+          - type: vertical-stack
+            cards:
+              - type: custom:button-card
+                entity: input_select.tablet_main
+                default: overview
+                show_icon: false
+                layout: vertical
+                name: House
+                tap_action:
+                  action: call-service
+                  service: input_select.select_option
+                  service_data:
+                    entity_id: input_select.tablet_main
+                    option: house
+                state:
+                  - value: house
+                    styles:
+                      card:
+                        - background: linear-gradient(rgb(100,0,237), rgb(0,0,0) )
+                styles:
+                  card:
+                    - background: linear-gradient(rgb(50,50,50), rgb(0,0,0) )
+                    - font-size: 36px
+              - type: custom:button-card
+                entity: input_select.tablet_main
+                default: overview
+                show_icon: false
+                layout: vertical
+                name: Network
+                tap_action:
+                  action: call-service
+                  service: input_select.select_option
+                  service_data:
+                    entity_id: input_select.tablet_main
+                    option: network
+                state:
+                  - value: network
+                    styles:
+                      card:
+                        - background: linear-gradient(rgb(100,0,237), rgb(0,0,0) )
+                styles:
+                  card:
+                    - background: linear-gradient(rgb(50,50,50), rgb(0,0,0) )
+                    - font-size: 36px
+        view_layout:
+          position: sidebar
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            entity: sensor.time_of_day
+            show_icon: false
+            show_entity_picture: true
+            show_name: false
+            show_label: true
+            show_state: true
+            layout: vertical
+            styles:
+              card:
+                - font-size: 36px
+        view_layout:
+          position: sidebar
+      - type: conditional
+        conditions:
+          - entity: input_select.tablet_main
+            state: mail
+        card:
+          type: custom:mail-and-packages-card
+          name: Mail Summary
+          updated: sensor.mail_updated
+          details: true
+          image: false
+          fedex_packages: sensor.mail_fedex_packages
+          ups_packages: sensor.mail_ups_packages
+          usps_packages: sensor.mail_usps_packages
+          amazon_packages: sensor.mail_amazon_packages
+          usps_mail: sensor.mail_usps_mail
+          camera_entity: camera.mail_usps
+          deliveries_message: sensor.mail_deliveries_message
+          camera: true
+          view_layout:
+            position: main
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            entity: sensor.nextsunrise
+            show_icon: false
+            show_entity_picture: true
+            show_name: true
+            show_label: true
+            show_state: true
+            layout: vertical
+            styles:
+              card:
+                - font-size: 24px
+          - type: custom:button-card
+            entity: sensor.nextsunset
+            show_icon: false
+            show_entity_picture: true
+            show_name: true
+            show_label: true
+            show_state: true
+            layout: vertical
+            styles:
+              card:
+                - font-size: 24px
+        view_layout:
+          position: sidebar
+      - type: conditional
+        conditions:
+          - entity: input_select.tablet_main
+            state: network
+        card:
+          type: vertical-stack
+          cards:
+            - type: horizontal-stack
+              cards:
+                - type: custom:button-card
+                  entity: binary_sensor.ping_home_assistant
+                  name: HA Server
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_home_assistant_switch
+                  name: HA Power
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_amplifi_main_router
+                  name: Main Router
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_amplifi_mesh_router
+                  name: Mesh Router
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_amplifi_mesh_switch
+                  name: Mesh Power
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_wd_mycloud
+                  name: WD MyCloud
+                  template: network_ping
+            - type: horizontal-stack
+              cards:
+                - type: custom:button-card
+                  entity: binary_sensor.ping_august_front_door
+                  name: August Front Door
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_front_door_connect_switch
+                  name: Front Door Connect
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_laserjet
+                  name: HP LaserJet
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_officejet
+                  name: HP OfficeJet
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_bose_soundbar
+                  name: Bose Soundbar
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_sonos_soundbar
+                  name: Sonos Soundbar
+                  template: network_ping
+            - type: horizontal-stack
+              cards:
+                - type: custom:button-card
+                  entity: binary_sensor.ping_brilliant_living_room
+                  name: Living Rm Brilliant
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_brilliant_bathroom
+                  name: Bathroom Brilliant
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_brilliant_guest_room
+                  name: Guest Rm Brilliant
+                  template: network_ping
+                - type: custom:button-card
+                  entity: sensor.ping_nest_living_room_display
+                  name: Living Rm Nest Hub
+                  template: network_ping
+                - type: custom:button-card
+                  entity: sensor.ping_nest_office_display
+                  name: Office Nest Hub
+                  template: network_ping
+                - type: custom:button-card
+                  entity: sensor.ping_nest_bedroom_display
+                  name: Bedroom Nest Hub
+                  template: network_ping
+            - type: horizontal-stack
+              cards:
+                - type: custom:button-card
+                  entity: sensor.ping_nest_living_room_speaker
+                  name: Living Rm Speaker
+                  template: network_ping
+                - type: custom:button-card
+                  entity: sensor.ping_nest_garage_speaker
+                  name: Garage Speaker
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_echo_guest_room_speaker
+                  name: Guest Rm Echo
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_august_back_door
+                  name: August Back Door
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_back_door_connect_switch
+                  name: Back Door Connect
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_apple_tv_4k
+                  name: Apple TV 4K
+                  template: network_ping
+            - type: horizontal-stack
+              cards:
+                - type: custom:button-card
+                  entity: binary_sensor.ping_sony_tv
+                  name: Sony TV
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_roku_stick
+                  name: Roku Stick
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_tv_stand_echo
+                  name: TV Stand Echo
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_ha_display
+                  name: HA Display
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_ha_mirror
+                  name: HA Mirror
+                  template: network_ping
+                - type: custom:button-card
+                  entity: sensor.ping_rec_router_restarter
+                  name: Router Restart
+                  template: network_ping
+            - type: horizontal-stack
+              cards:
+                - type: custom:button-card
+                  entity: binary_sensor.ping_shelly_garage_door_opener
+                  name: Shelly Garage
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_myq_hub
+                  name: MyQ Hub
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_garage_opener_switch
+                  name: Garage Opener
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_office_light_switch
+                  name: Office Light
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_coffee_maker_switch
+                  name: Coffee Maker
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_toaster_oven_switch
+                  name: Toaster Oven
+                  template: network_ping
+            - type: horizontal-stack
+              cards:
+                - type: custom:button-card
+                  entity: binary_sensor.ping_iphone_12
+                  name: Keith's iPhone
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_ipad_pro
+                  name: Apple iPad
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_apple_watch
+                  name: Apple Watch
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_mac_mini
+                  name: Apple Mac Mini
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_macbook
+                  name: Apple MacBook
+                  template: network_ping
+                - type: custom:button-card
+                  entity: binary_sensor.ping_iphone2
+                  name: GM iPhone
+                  template: network_ping
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            entity: sensor.thermostat_current_temp
+            show_icon: true
+            icon: mdi:home-thermometer
+            show_name: true
+            show_label: true
+            show_state: true
+            color: peru
+            name: Currently
+            size: 75%
+            layout: vertical
+            styles:
+              card:
+                - font-size: 18px
+          - type: custom:button-card
+            entity: sensor.thermostat_set_temp
+            show_icon: true
+            icon: mdi:thermostat
+            show_name: true
+            show_label: true
+            show_state: true
+            name: Set Temp
+            size: 75%
+            layout: vertical
+            state:
+              - value: 0
+                entity_picture: /local/images/none.png
+              - value: 1
+                entity_picture: /local/images/1.png
+                label: Door Open
+            styles:
+              card:
+                - font-size: 18px
+          - type: custom:button-card
+            entity: climate.wall_e
+            show_icon: true
+            icon: mdi:thermostat
+            show_entity_picture: true
+            show_name: true
+            show_label: true
+            show_state: true
+            name: Mode
+            size: 75%
+            layout: vertical
+            state:
+              - value: cool
+                color: dodgerblue
+              - value: heat
+                color: red
+              - value: heat_cool
+                color: cyan
+              - value: fan_only
+                color: limegreen
+              - value: 'off'
+                color: limegreen
+            styles:
+              card:
+                - font-size: 18px
+          - type: custom:button-card
+            entity: sensor.thermostat_status
+            show_icon: true
+            icon: mdi:thermostat
+            show_entity_picture: true
+            show_name: true
+            show_label: true
+            show_state: true
+            name: Status
+            size: 75%
+            layout: vertical
+            state:
+              - value: 'off'
+                color: limegreen
+              - value: cooling
+                color: dodgerblue
+              - value: heating
+                color: red
+              - value: 3
+                entity_picture: /local/images/4.png
+              - value: 5
+                entity_picture: /local/images/5.png
+            styles:
+              card:
+                - font-size: 18px
+        view_layout:
+          position: sidebar
+      - type: vertical-stack
+        cards:
+          - type: custom:button-card
+            color_type: blank-card
+          - type: custom:button-card
+            color_type: blank-card
+          - type: custom:button-card
+            color_type: blank-card
+        view_layout:
+          position: sidebar
+      - type: horizontal-stack
+        cards:
+          - type: picture-entity
+            entity: input_boolean.mail
+            image: local/images/mailbox.png
+            show_state: false
+            show_name: false
+            state_filter:
+              'on': brightness(110%) saturate(1.2)
+              'off': brightness(0%)
+          - type: custom:button-card
+            color_type: blank-card
+          - type: picture-entity
+            entity: input_boolean.package
+            image: local/images/package.png
+            show_state: false
+            show_name: false
+            state_filter:
+              'on': brightness(110%) saturate(1.2)
+              'off': brightness(0%)
+          - type: custom:button-card
+            color_type: blank-card
+          - type: picture-entity
+            entity: input_boolean.recycle_week
+            image: local/images/recycle.png
+            show_state: false
+            show_name: false
+            state_filter:
+              'on': brightness(110%) saturate(1.2)
+              'off': brightness(0%)
+          - type: custom:button-card
+            color_type: blank-card
+          - type: picture-entity
+            entity: input_boolean.guest
+            image: local/images/guest.png
+            show_state: false
+            show_name: false
+            state_filter:
+              'on': brightness(110%) saturate(1.2)
+              'off': brightness(0%)
+        view_layout:
+          position: sidebar
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            entity: sensor.total_lights
+            show_icon: false
+            show_entity_picture: true
+            show_name: false
+            show_label: true
+            layout: vertical
+            state:
+              - value: 0
+                entity_picture: /local/images/none.png
+                label: Light on
+                styles:
+                  label:
+                    - color: black
+              - value: 1
+                entity_picture: /local/images/1.png
+                label: Light On
+              - value: 2
+                entity_picture: /local/images/2.png
+                label: Lights On
+              - value: 3
+                entity_picture: /local/images/3.png
+                label: Lights On
+              - value: 4
+                entity_picture: /local/images/4.png
+                label: Lights On
+              - value: 5
+                entity_picture: /local/images/5.png
+                label: Lights On
+              - value: 6
+                entity_picture: /local/images/6.png
+                label: Lights On
+              - value: 7
+                entity_picture: /local/images/7.png
+                label: Lights On
+              - value: 8
+                entity_picture: /local/images/8.png
+                label: Lights On
+              - value: 9
+                entity_picture: /local/images/9.png
+                label: Lights On
+              - value: 10
+                entity_picture: /local/images/10.png
+                label: Lights On
+              - value: 11
+                entity_picture: /local/images/11.png
+                label: Lights On
+              - value: 12
+                entity_picture: /local/images/12.png
+                label: Lights On
+              - value: 13
+                entity_picture: /local/images/13.png
+                label: Lights On
+              - value: 14
+                entity_picture: /local/images/14.png
+                label: Lights On
+              - value: 15
+                entity_picture: /local/images/15.png
+                label: Lights On
+              - value: 16
+                entity_picture: /local/images/16.png
+                label: Lights On
+              - value: 17
+                entity_picture: /local/images/17.png
+                label: Lights On
+              - value: 18
+                entity_picture: /local/images/18.png
+                label: Lights On
+              - value: 19
+                entity_picture: /local/images/19.png
+                label: Lights On
+            styles:
+              card:
+                - font-size: 18px
+          - type: custom:button-card
+            entity: sensor.total_doors
+            show_icon: false
+            show_entity_picture: true
+            show_name: false
+            show_label: true
+            layout: vertical
+            state:
+              - value: 0
+                entity_picture: /local/images/none.png
+              - value: 1
+                entity_picture: /local/images/1.png
+                label: Door Open
+              - value: 2
+                entity_picture: /local/images/2.png
+                label: Doors Open
+              - value: 3
+                entity_picture: /local/images/4.png
+                label: Doors Open
+              - value: 5
+                entity_picture: /local/images/5.png
+                label: Doors Open
+            styles:
+              card:
+                - font-size: 18px
+          - type: custom:button-card
+            entity: sensor.total_locks
+            show_icon: false
+            show_entity_picture: true
+            show_name: false
+            show_label: true
+            layout: vertical
+            state:
+              - value: 0
+                entity_picture: /local/images/none.png
+                show_label: false
+              - value: 1
+                entity_picture: /local/images/1.png
+                label: Unlocked
+              - value: 2
+                entity_picture: /local/images/2.png
+                label: Unlocked
+              - value: 3
+                entity_picture: /local/images/3.png
+                label: Unlocked
+              - value: 4
+                entity_picture: /local/images/4.png
+                label: Unlocked
+              - value: 5
+                entity_picture: /local/images/5.png
+                label: Unlocked
+            styles:
+              card:
+                - font-size: 18px
+        view_layout:
+          position: sidebar
+      - type: vertical-stack
+        cards:
+          - type: custom:button-card
+            color_type: blank-card
+          - type: custom:button-card
+            color_type: blank-card
+          - type: custom:button-card
+            color_type: blank-card
+        view_layout:
+          position: sidebar
+      - type: custom:mini-media-player
+        entity: media_player.desk_speaker
+        source: icon
+        name: Bose SoundTouch
+        hide:
+          name: true
+          icon: true
+          info: true
+          power: true
+          source: true
+          controls: true
+          volume: true
+        view_layout:
+          position: sidebar
+        artwork: full-cover-fit

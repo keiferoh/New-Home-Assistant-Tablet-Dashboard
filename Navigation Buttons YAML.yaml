@@ -1,0 +1,92 @@
+type: horizontal-stack
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        entity: input_select.tablet_main
+        default: overview
+        show_icon: false
+        layout: vertical
+        name: Overview
+        tap_action:
+          action: call-service
+          service: input_select.select_option
+          service_data:
+            entity_id: input_select.tablet_main
+            option: overview
+        state:
+          - value: overview
+            styles:
+              card:
+                - background: linear-gradient(rgb(100,0,237), rgb(0,0,0) )
+        styles:
+          card:
+            - background: linear-gradient(rgb(50,50,50), rgb(0,0,0) )
+            - font-size: 36px
+      - type: custom:button-card
+        entity: input_select.tablet_main
+        default: overview
+        show_icon: false
+        layout: vertical
+        name: Mail
+        tap_action:
+          action: call-service
+          service: input_select.select_option
+          service_data:
+            entity_id: input_select.tablet_main
+            option: mail
+        state:
+          - value: mail
+            styles:
+              card:
+                - background: linear-gradient(rgb(100,0,237), rgb(0,0,0) )
+        styles:
+          card:
+            - background: linear-gradient(rgb(50,50,50), rgb(0,0,0) )
+            - font-size: 36px
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        entity: input_select.tablet_main
+        default: overview
+        show_icon: false
+        layout: vertical
+        name: House
+        tap_action:
+          action: call-service
+          service: input_select.select_option
+          service_data:
+            entity_id: input_select.tablet_main
+            option: house
+        state:
+          - value: house
+            styles:
+              card:
+                - background: linear-gradient(rgb(100,0,237), rgb(0,0,0) )
+        styles:
+          card:
+            - background: linear-gradient(rgb(50,50,50), rgb(0,0,0) )
+            - font-size: 36px
+      - type: custom:button-card
+        entity: input_select.tablet_main
+        default: overview
+        show_icon: false
+        layout: vertical
+        name: Network
+        tap_action:
+          action: call-service
+          service: input_select.select_option
+          service_data:
+            entity_id: input_select.tablet_main
+            option: network
+        state:
+          - value: network
+            styles:
+              card:
+                - background: linear-gradient(rgb(100,0,237), rgb(0,0,0) )
+        styles:
+          card:
+            - background: linear-gradient(rgb(50,50,50), rgb(0,0,0) )
+            - font-size: 36px
+view_layout:
+  position: sidebar

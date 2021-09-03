@@ -1,0 +1,568 @@
+type: conditional
+conditions:
+  - entity: input_select.tablet_main
+    state: house
+card:
+  cards:
+    - background: transparent
+      entities:
+        - entity: cover.garage_door
+          type: garage
+        - entity: person.me
+          state_map:
+            'off': away
+            'on': home
+          type: car2
+        - entity: light.garage_door_light
+          state_map:
+            'off': 'off'
+            'on': 'on'
+          type: garage_door_light
+        - entity: light.front_porch_light
+          state_map:
+            'off': 'off'
+            'on': 'on'
+          type: front_door_light
+        - entity: light.rear_deck_light
+          state_map:
+            'off': 'off'
+            'on': 'on'
+          type: back_door_light
+        - entity: input_boolean.mail
+          state_map:
+            'off': 'off'
+            'on': 'on'
+          type: mail
+        - entity: input_boolean.recycle_week
+          state_map:
+            'on': 'on'
+          type: recycle
+        - entity: input_select.amazon_packages
+          state_map:
+            'on': delivered
+          type: amazon-delivered
+        - entity: input_select.fedex_packages
+          state_map:
+            'on': delivered
+          type: fedex-delivered
+        - entity: input_select.ups_packages
+          state_map:
+            'on': delivered
+          type: ups-delivered
+        - entity: input_select.dhl_packages
+          state_map:
+            'on': delivered
+          type: dhl-delivered
+        - entity: input_select.usps_packages
+          state_map:
+            'on': delivered
+          type: usps-delivered
+        - entity: light.guest_room_lights
+          type: downstairs_light
+        - entity: light.office_lights
+          type: office_light
+        - entity: light.master_bedroom_lights
+          type: upstairs_light
+        - entity: light.outside_lights
+          type: door
+        - entity: light.living_room_lights
+          type: garage2
+        - entity: light.guest_room_lights
+          type: flag
+      theme: ranch_with_three_stall_garage
+      type: custom:home-card
+      weather: weather.dayton
+    - cards:
+        - entity: input_select.dhl_packages
+          size: 75%
+          color: yellow
+          type: custom:button-card
+          template: packages
+        - entity: binary_sensor.front_door_open
+          extra_styles: |
+            @keyframes pulse {
+              0% {
+                -moz-box-shadow: 0 0 0 0 rgba(255,0,0, 0.7);
+                box-shadow: 0 0 0 0 rgba(255,0,0, 0.7);
+              }
+              70% {
+                  -moz-box-shadow: 0 0 0 10px rrgba(240,52,52, 0.9);
+                  box-shadow: 0 0 0 10px rgba(240,52,52, 0.7);
+              }
+              100% {
+                  -moz-box-shadow: 0 0 0 0 rgba(240,52,52, 0);
+                  box-shadow: 0 0 0 0 rgba(240,52,52, 0);
+              }
+            }
+          tap_action: none
+          icon: mdi:door
+          show_name: false
+          state:
+            - icon: mdi:door
+              styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - opacity: 0.5
+                  - color: black
+              value: 'off'
+            - icon: mdi:door-open
+              name: OPEN
+              operator: default
+              styles:
+                icon:
+                  - animation: blink 2s infinite
+                  - width: 75%
+                  - color: red
+            - icon: mdi:door
+              name: Unavailable
+              styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - opacity: 0.5
+                  - color: rgb(128, 128, 128)
+              value: unavailable
+            - icon: mdi:door
+              name: Unknown
+              styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - opacity: 0.5
+                  - color: rgb(0, 255, 255)
+              value: unknown
+          type: custom:button-card
+          style:
+            .: |
+              ha-card {
+                background-color: transparent !important;
+                box-shadow: none !important;
+              }
+        - entity: lock.front_door
+          show_name: false
+          state:
+            - icon: mdi:lock
+              styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - color: black
+              value: locked
+            - icon: mdi:lock-open
+              name: UNLOCKED
+              styles:
+                icon:
+                  - width: 75%
+                  - color: yellow
+                  - animation: pulse 2s infinite
+              value: unlocked
+            - icon: mdi:lock
+              name: Unavailable
+              styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - color: rgb(128, 128, 125)
+              value: unavailable
+            - icon: mdi:lock
+              name: Unknown
+              styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - color: rgb(0, 255, 255)
+                name:
+                  - padding: 5px
+                  - font-size: 10px
+                  - text-overflow: unset
+                  - white-space: unset
+                  - word-break: break-word
+                  - color: rgb(0, 255, 255)
+              value: unknown
+            - icon: mdi:lock
+              name: Unknown
+              styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - color: rgb(0, 255, 255)
+                name:
+                  - padding: 5px
+                  - font-size: 10px
+                  - text-overflow: unset
+                  - white-space: unset
+                  - word-break: break-word
+                  - color: rgb(0, 255, 255)
+              value: locking
+            - icon: mdi:lock
+              name: Unknown
+              styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - color: rgb(0, 255, 255)
+                name:
+                  - padding: 5px
+                  - font-size: 10px
+                  - text-overflow: unset
+                  - white-space: unset
+                  - word-break: break-word
+                  - color: rgb(0, 255, 255)
+              value: unlocking
+          type: custom:button-card
+          extra_styles: |
+            [[[ return `
+              @keyframes pulse {
+                50% {
+                  color: gainsboro;
+                }
+              }
+            `]]]
+          style:
+            .: |
+              ha-card {
+                background-color: transparent !important;
+                box-shadow: none !important;
+              }
+        - entity: input_select.fedex_packages
+          show_name: false
+          tap_action: none
+          size: 75%
+          color_type: icon
+          color: dodgerblue
+          type: custom:button-card
+          template: packages
+        - entity: input_boolean.mail
+          show_name: false
+          tap_action: none
+          size: 75%
+          color_type: icon
+          icon: mdi:mailbox-up
+          state:
+            - value: 'off'
+              color: black
+            - value: 'on'
+              color: lightskyblue
+          type: custom:button-card
+          style:
+            .: |
+              ha-card {
+                background-color: transparent !important;
+                box-shadow: none !important;
+              }
+        - entity: input_select.usps_packages
+          show_name: false
+          tap_action: none
+          size: 75%
+          color_type: icon
+          color: lightskyblue
+          type: custom:button-card
+          template: packages
+        - entity: input_boolean.guest
+          show_name: false
+          tap_action:
+            action: toggle
+          icon: mdi:account-star
+          state:
+            - styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - opacity: 0.5
+                  - color: lime
+              value: 'on'
+            - styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - color: black
+              value: 'off'
+          type: custom:button-card
+          style:
+            .: |
+              ha-card {
+                background-color: transparent !important;
+                box-shadow: none !important;
+              }
+        - entity: vacuum.roomba
+          type: custom:button-card
+          template: roomba
+        - entity: switch.garage_opener
+          show_name: false
+          tap_action: none
+          state:
+            - styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - opacity: 0.5
+                  - color: black
+              value: 'on'
+            - styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - color: rgb(100, 100, 100)
+              value: 'off'
+          type: custom:button-card
+          style:
+            .: |
+              ha-card {
+                background-color: transparent !important;
+                box-shadow: none !important;
+              }
+        - entity: cover.garage_door
+          extra_styles: |
+            @keyframes pulse {
+              0% {
+                -moz-box-shadow: 0 0 0 0 rgba(255,0,0, 0.7);
+                box-shadow: 0 0 0 0 rgba(255,0,0, 0.7);
+              }
+              70% {
+                  -moz-box-shadow: 0 0 0 10px rrgba(240,52,52, 0.9);
+                  box-shadow: 0 0 0 10px rgba(240,52,52, 0.7);
+              }
+              100% {
+                  -moz-box-shadow: 0 0 0 0 rgba(240,52,52, 0);
+                  box-shadow: 0 0 0 0 rgba(240,52,52, 0);
+              }
+            }
+          icon: mdi:garage
+          tap_action: none
+          name: Closed
+          show_name: false
+          state:
+            - icon: mdi:garage-variant
+              styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - opacity: 0.5
+                  - color: black
+              value: closed
+            - icon: mdi:garage-open-variant
+              name: OPEN
+              operator: default
+              styles:
+                icon:
+                  - animation: blink 2s infinite
+                  - width: 75%
+                  - color: red
+                  - word-break: break-word
+              value: open
+            - icon: mdi:garage-alert-variant
+              name: Unavailable
+              styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - opacity: 0.5
+                  - color: rgb(128, 128, 125)
+              value: unavailable
+            - icon: mdi:garage-alert-variant
+              name: Unknown
+              styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - opacity: 0.5
+                  - color: rgb(0, 255, 255)
+              value: unknown
+          type: custom:button-card
+          style:
+            .: |
+              ha-card {
+                background-color: transparent !important;
+                box-shadow: none !important;
+              }
+        - entity: input_boolean.recycle_week
+          show_name: false
+          tap_action: none
+          state:
+            - styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - opacity: 0.5
+                  - color: lime
+              value: 'on'
+            - styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - color: black
+              value: 'off'
+          type: custom:button-card
+          style:
+            .: |
+              ha-card {
+                background-color: transparent !important;
+                box-shadow: none !important;
+              }
+        - entity: input_select.amazon_packages
+          show_name: false
+          tap_action: none
+          size: 75%
+          color_type: icon
+          color: rgb(255, 153, 0)
+          type: custom:button-card
+          template: packages
+        - entity: lock.back_door
+          show_name: false
+          state:
+            - icon: mdi:lock
+              styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - color: black
+              value: locked
+            - icon: mdi:lock-open
+              name: UNLOCKED
+              styles:
+                icon:
+                  - width: 75%
+                  - color: yellow
+                  - animation: pulse 2s infinite
+              value: unlocked
+            - icon: mdi:lock
+              name: Unavailable
+              styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - color: rgb(128, 128, 125)
+              value: unavailable
+            - icon: mdi:lock
+              name: Unknown
+              styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - color: rgb(0, 255, 255)
+                name:
+                  - padding: 5px
+                  - font-size: 10px
+                  - text-overflow: unset
+                  - white-space: unset
+                  - word-break: break-word
+                  - color: rgb(0, 255, 255)
+              value: unknown
+            - icon: mdi:lock
+              name: Unknown
+              styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - color: rgb(0, 255, 255)
+                name:
+                  - padding: 5px
+                  - font-size: 10px
+                  - text-overflow: unset
+                  - white-space: unset
+                  - word-break: break-word
+                  - color: rgb(0, 255, 255)
+              value: locking
+            - icon: mdi:lock
+              name: Unknown
+              styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - color: rgb(0, 255, 255)
+                name:
+                  - padding: 5px
+                  - font-size: 10px
+                  - text-overflow: unset
+                  - white-space: unset
+                  - word-break: break-word
+                  - color: rgb(0, 255, 255)
+              value: unlocking
+          type: custom:button-card
+          extra_styles: |
+            [[[ return `
+              @keyframes pulse {
+                50% {
+                  color: gainsboro;
+                }
+              }
+            `]]]
+          style:
+            .: |
+              ha-card {
+                background-color: transparent !important;
+                box-shadow: none !important;
+              }
+        - entity: binary_sensor.back_door_open
+          extra_styles: |
+            @keyframes pulse {
+              0% {
+                -moz-box-shadow: 0 0 0 0 rgba(255,0,0, 0.7);
+                box-shadow: 0 0 0 0 rgba(255,0,0, 0.7);
+              }
+              70% {
+                  -moz-box-shadow: 0 0 0 10px rrgba(240,52,52, 0.9);
+                  box-shadow: 0 0 0 10px rgba(240,52,52, 0.7);
+              }
+              100% {
+                  -moz-box-shadow: 0 0 0 0 rgba(240,52,52, 0);
+                  box-shadow: 0 0 0 0 rgba(240,52,52, 0);
+              }
+            }
+          icon: mdi:door
+          name: Closed
+          tap_action: none
+          show_name: false
+          state:
+            - icon: mdi:door
+              styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - opacity: 0.5
+                  - color: black
+              value: 'off'
+            - icon: mdi:door-open
+              name: OPEN
+              operator: default
+              styles:
+                icon:
+                  - animation: blink 2s infinite
+                  - width: 75%
+                  - color: red
+              value: 'on'
+            - icon: mdi:door
+              name: Unavailable
+              styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - opacity: 0.5
+                  - color: rgb(128, 128, 125)
+              value: unavailable
+            - icon: mdi:door
+              name: Unknown
+              styles:
+                card: null
+                icon:
+                  - width: 75%
+                  - opacity: 0.5
+                  - color: rgb(0, 255, 255)
+          type: custom:button-card
+          style:
+            .: |
+              ha-card {
+                background-color: transparent !important;
+                box-shadow: none !important;
+              }
+        - entity: input_select.ups_packages
+          show_name: false
+          tap_action: none
+          size: 75%
+          color_type: icon
+          color: tan
+          type: custom:button-card
+          template: packages
+      type: horizontal-stack
+  type: vertical-stack
